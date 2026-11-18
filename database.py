@@ -1,3 +1,6 @@
+import hashlib
+import hmac
+import os
 import sqlite3
 
 # -----------------------------------
@@ -39,12 +42,19 @@ conn.commit()
 # -----------------------------------
 # Create User
 # -----------------------------------
+def _hash_password(password, salt=None):
+    """Return 'salt$hash' using PBKDF2-HMAC-SHA256 so plain passwords are never stored."""
+    salt = salt or os.urandom(16).hex()
+    digest = hashlib.pbkdf2_hmac("sha256", password.encode(), bytes.fromhex(salt), 200_000).hex()
+    return f"{salt}${digest}"
+
+
 def create_user(username, password):
 
     cursor.execute("""
     INSERT INTO users (username, password)
     VALUES (?, ?)
-    """, (username, password))
+    """, (username, _hash_password(password)))
 
     conn.commit()
 
@@ -55,12 +65,17 @@ def login_user(username, password):
 
     cursor.execute("""
     SELECT * FROM users
-    WHERE username=? AND password=?
-    """, (username, password))
+    WHERE username=?
+    """, (username,))
 
     data = cursor.fetchone()
+    if data is None or "$" not in data[2]:
+        return None
 
-    return data
+    salt = data[2].split("$", 1)[0]
+    if hmac.compare_digest(data[2], _hash_password(password, salt)):
+        return data
+    return None
 
 # -----------------------------------
 # Save Task Progress
