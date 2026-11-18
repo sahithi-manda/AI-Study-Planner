@@ -1,14 +1,14 @@
 # 📚 AI Study Planner
 
-An intelligent, autonomous study planning application built with **Streamlit** and **Python**. The AI Study Planner helps students generate customized study schedules, track their progress, identify weak areas, and maintain focus using AI-driven recommendations and built-in productivity tools.
+A study planning app built with **Streamlit** and **Python**. It generates a daily study schedule from your subjects, available hours and days until exams, tracks progress, highlights weak areas, and gives study recommendations from a set of rules.
 
 ## ✨ Features
 
-- **🔐 User Authentication:** Secure signup and login functionality to keep your study data private and personalized.
+- **🔐 User Authentication:** Signup and login, with passwords stored as salted PBKDF2-SHA256 hashes.
 - **📅 Smart Study Planner:** Automatically generate a detailed daily study schedule based on your subjects, available daily study hours, and days left until exams.
 - **📥 PDF Export:** Download your generated study plan as a nicely formatted PDF.
 - **📊 Interactive Analytics:** Visualize your study hours distribution across subjects with Plotly charts.
-- **🤖 AI Study Assistant & Recommendations:** Get smart tips and ask study-related questions to the integrated AI chatbot.
+- **🤖 Study Assistant & Recommendations:** Rule-based tips that adapt to your study hours, days left and number of subjects, plus a keyword-based assistant that answers common study questions.
 - **✅ Daily Progress Tracking:** Check off completed tasks and monitor your daily productivity with progress bars.
 - **📉 Weak Area Prediction:** Analyzes your task completion rates to identify and warn you about subjects that need more attention.
 - **⏳ Pomodoro Focus Timer:** A built-in timer to help you stay focused during study sessions without distractions.
@@ -70,7 +70,7 @@ This will start a local server, and the app will open in your default web browse
 ```
 AI Study Planner/
 ├── app.py                   # Main Streamlit application file
-├── chatbot.py               # AI chatbot integration and recommendations
+├── chatbot.py               # Rule-based recommendations and keyword-based study assistant
 ├── database.py              # SQLite database operations (auth, tasks, analytics)
 ├── planner.py               # Logic for generating the study schedule
 ├── pdf_generator.py         # Code to generate the PDF version of the study plan
